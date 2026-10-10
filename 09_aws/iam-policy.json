@@ -1,0 +1,31 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ReadNatureRemoAccessToken",
+            "Effect": "Allow",
+            "Action": "ssm:GetParameter",
+            "Resource": "arn:aws:ssm:ap-northeast-1:{{AWSアカウントID}}:parameter/home-power/nature-remo/access-token"
+        },
+        {
+            "Sid": "ReadAndWritePowerState",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem"
+            ],
+            "Resource": "arn:aws:dynamodb:ap-northeast-1:{{AWSアカウントID}}:table/PowerMeasurementState"
+        },
+        {
+            "Sid": "SendPowerMetrics",
+            "Effect": "Allow",
+            "Action": "cloudwatch:PutMetricData",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "cloudwatch:namespace": "HomePower"
+                }
+            }
+        }
+    ]
+}
